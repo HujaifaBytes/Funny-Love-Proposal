@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be Mine?</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
+            font-family: 'Pacifico', cursive;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 2s ease-in-out;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #ff6f61;
+            margin-bottom: 20px;
+            animation: float 3s infinite ease-in-out;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        #yesButton {
+            background: #4caf50;
+            color: white;
+        }
+
+        #yesButton:hover {
+            background: #45a049;
+            transform: scale(1.1);
+        }
+
+        #noButton {
+            background: #f44336;
+            color: white;
+            position: relative;
+        }
+
+        #noButton:hover {
+            background: #e53935;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 2.5rem;
+            color: hsl(10, 71%, 19%);
+            display: none;
+        }
+
+        .message2 {
+            position: fixed;
+            bottom: -100px; /* Start off-screen */
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            color: hsl(9, 41%, 97%);
+            display: none;
+            animation: rise 10s linear infinite;
+        }
+
+        .hearts {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            bottom: 0;
+            font-size: 2rem;
+            color: #ff6f61;
+            animation: rise 5s linear infinite;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes rise {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <h1 id="question">Will you be mine? 🫣</h1>
+        <div class="buttons" id="buttons">
+            <button id="yesButton">Yes</button>
+            <button id="noButton">No</button>
+        </div>
+        <div class="message" id="message">
+            I love You too!
+        </div>
+        <div class="message2" id="message2">
+            You've made me the happiest person in the world! 💖
+        </div>
+    </div>
+
+    <div class="hearts" id="hearts"></div>
+
+    <script>
+        const noButton = document.getElementById('noButton');
+        const yesButton = document.getElementById('yesButton');
+        const message = document.getElementById('message');
+        const message2 = document.getElementById('message2');
+        const buttons = document.getElementById('buttons');
+        const heartsContainer = document.getElementById('hearts');
+
+        noButton.addEventListener('mouseover', () => {
+            const x = Math.random() * (window.innerWidth - noButton.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noButton.offsetHeight);
+            noButton.style.position = 'absolute';
+            noButton.style.left = `${x}px`;
+            noButton.style.top = `${y}px`;
+        });
+
+        yesButton.addEventListener('click', () => {
+            // Hide the buttons and the question
+            buttons.style.display = 'none';
+            document.getElementById('question').style.display = 'none';
+            
+            // Show the "I love You too!" message
+            message.style.display = 'block';
+
+            // Show and animate the "You've made me the happiest person in the world! 💖" message
+            message2.style.display = 'block';
+
+            // Create heart animations
+            for (let i = 0; i < 50; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '💖';
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                heartsContainer.appendChild(heart);
+            }
+        });
+    </script>
+</body>
+
+</html>
