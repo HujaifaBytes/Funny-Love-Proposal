@@ -1,193 +1,556 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Will You Be Mine?</title>
+    <title>Project Infographic: Space Invaders - Final Frontier</title>
+    <!-- Use official Chart.js CDN and Google Fonts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,900&display=swap" rel="stylesheet">
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f6fa; /* Light gray-white */
+            color: #1a324b;
+        }
+
+        .stat-card {
+            background-color: #ffffff;
+            border-left: 5px solid #00e1ff;
+        }
+
+        .flow-step {
+            background-color: #f0f4f8;
+            border: 1px solid #d1d5db;
+            min-height: 80px;
             display: flex;
-            justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #ff7eb3, #ff758c);
-            font-family: 'Pacifico', cursive;
-            overflow: hidden;
-        }
-
-        .container {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 2s ease-in-out;
-            max-width: 400px;
-            width: 100%;
-        }
-
-        h1 {
-            font-size: 3rem;
-            color: #ff6f61;
-            margin-bottom: 20px;
-            animation: float 3s infinite ease-in-out;
-        }
-
-        .buttons {
-            display: flex;
             justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        button {
-            padding: 15px 30px;
-            font-size: 1.5rem;
-            border: none;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-
-        #yesButton {
-            background: #4caf50;
-            color: white;
-        }
-
-        #yesButton:hover {
-            background: #45a049;
-            transform: scale(1.1);
-        }
-
-        #noButton {
-            background: #f44336;
-            color: white;
+            text-align: center;
             position: relative;
         }
 
-        #noButton:hover {
-            background: #e53935;
+        .flow-arrow {
+            position: absolute;
+            color: #89a7d0;
+            font-size: 2rem;
+            line-height: 1;
         }
 
-        .message {
-            margin-top: 20px;
-            font-size: 2.5rem;
-            color: hsl(10, 71%, 19%);
-            display: none;
-        }
-
-        .message2 {
-            position: fixed;
-            bottom: -100px; /* Start off-screen */
+        .flow-arrow.down {
+            bottom: -25px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 2rem;
-            color: hsl(9, 41%, 97%);
-            display: none;
-            animation: rise 10s linear infinite;
         }
 
-        .hearts {
-            position: fixed;
-            bottom: 0;
-            left: 0;
+        .flow-arrow.right {
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .flow-arrow.left {
+            left: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .chart-container {
+            position: relative;
             width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
         }
 
-        .heart {
-            position: absolute;
-            bottom: 0;
-            font-size: 2rem;
-            color: #ff6f61;
-            animation: rise 5s linear infinite;
-        }
-
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-
-            100% {
-                opacity: 1;
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
             }
         }
 
-        @keyframes rise {
-            0% {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        .section-title {
+            color: #00e1ff;
+        }
 
-            100% {
-                transform: translateY(-100vh);
-                opacity: 0;
-            }
+        .section-subtitle {
+            color: #1a324b;
+        }
+
+        .highlight-text {
+            color: #00e1ff;
+            font-weight: 700;
+        }
+
+        .card {
+            background-color: #ffffff;
+        }
+
+        /* Table and border color tweaks for light background */
+        table,
+        th,
+        td {
+            color: #1a324b;
+        }
+
+        .bg-gray-800\/30 {
+            background-color: #e5e7eb !important;
+        }
+
+        .border-gray-600,
+        .border-gray-700 {
+            border-color: #d1d5db !important;
+        }
+
+        .divide-gray-700> :not([hidden])~ :not([hidden]) {
+            border-color: #e5e7eb !important;
+        }
+
+        .bg-gray-900\/40 {
+            background-color: #f0f4f8 !important;
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 </head>
 
-<body>
-    <div class="container">
-        <h1 id="question">Will you be mine? 🫣</h1>
-        <div class="buttons" id="buttons">
-            <button id="yesButton">Yes</button>
-            <button id="noButton">No</button>
-        </div>
-        <div class="message" id="message">
-            I’m overjoyed to hear that!
-        </div>
-        <div class="message2" id="message2">
-            You've made me the happiest person in the world! 💖
-        </div>
+<body class="text-white">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center my-12 md:my-16">
+            <h1 class="text-4xl md:text-6xl font-black uppercase" style="color: #00e1ff;">Space Invaders: Final Frontier
+            </h1>
+            <p class="text-xl md:text-2xl mt-4 max-w-4xl mx-auto section-subtitle">A university project showcasing a
+                modern, feature-rich 2D arcade shooter built with Python. This infographic details the project's
+                architecture, features, and technical achievements.</p>
+        </header>
+
+        <section id="glance" class="my-16">
+            <h2 class="text-3xl font-bold text-center mb-10 section-title">Project at a Glance</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+                <div class="stat-card p-6 rounded-lg shadow-lg text-center">
+                    <p class="text-5xl md:text-6xl font-extrabold highlight-text">Python 3</p>
+                    <p class="mt-2 text-lg section-subtitle">Core Language</p>
+                </div>
+                <div class="stat-card p-6 rounded-lg shadow-lg text-center">
+                    <p class="text-5xl md:text-6xl font-extrabold highlight-text">Pygame</p>
+                    <p class="mt-2 text-lg section-subtitle">Core Library</p>
+                </div>
+                <div class="stat-card p-6 rounded-lg shadow-lg text-center">
+                    <p class="text-5xl md:text-6xl font-extrabold highlight-text">15+</p>
+                    <p class="mt-2 text-lg section-subtitle">Major Features</p>
+                </div>
+                <div class="stat-card p-6 rounded-lg shadow-lg text-center">
+                    <p class="text-5xl md:text-6xl font-extrabold highlight-text">Excel</p>
+                    <p class="mt-2 text-lg section-subtitle">Data Persistence</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="user-journey" class="my-20">
+            <h2 class="text-3xl font-bold text-center mb-4 section-title">The Player Journey</h2>
+            <p class="text-center max-w-3xl mx-auto mb-12 section-subtitle">The application is structured as a state
+                machine, guiding the user through distinct phases from setup to gameplay and conclusion. This flowchart
+                illustrates the complete user flow.</p>
+            <div class="p-6 md:p-8 rounded-lg card shadow-2xl">
+                <div class="flow-step rounded-lg p-4 font-bold text-lg highlight-text">
+                    Application Start
+                    <div class="flow-arrow down">▼</div>
+                </div>
+                <div class="flow-step rounded-lg p-4 mt-12 font-bold text-lg">
+                    Home Screen
+                    <p class="font-normal text-sm section-subtitle mt-1">(Input Name, Gender, Set Sensitivity & Sound)
+                    </p>
+                    <div class="flow-arrow down">▼</div>
+                    <div class="flow-arrow right hidden md:block">►</div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 mt-12">
+                    <div class="relative">
+                        <div class="flow-step rounded-lg p-4 font-bold text-lg text-green-300 border-green-400">
+                            "START GAME"
+                            <div class="flow-arrow down">▼</div>
+                        </div>
+                        <div class="flow-step rounded-lg p-4 mt-12 font-bold text-lg">
+                            Gameplay Loop
+                            <p class="font-normal text-sm section-subtitle mt-1">(Evade, Shoot, Score)</p>
+                            <div class="flow-arrow right">►</div>
+                        </div>
+                    </div>
+                    <div class="relative mt-12 md:mt-0">
+                        <div
+                            class="flow-step rounded-lg p-4 font-bold text-lg text-red-300 border-red-400 md:mt-[128px]">
+                            "QUIT" Button
+                            <div class="flow-arrow left hidden md:block">◄</div>
+                            <div class="flow-arrow down md:hidden">▼</div>
+                        </div>
+                        <div class="flow-step rounded-lg p-4 mt-12 font-bold text-lg">
+                            Terminate App
+                        </div>
+                    </div>
+                </div>
+                <div class="flow-step rounded-lg p-4 mt-12 font-bold text-lg">
+                    Collision / Enemy Pass?
+                    <div class="flow-arrow down">▼</div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 mt-12">
+                    <div class="relative">
+                        <div class="flow-step rounded-lg p-4 font-bold text-lg text-green-300 border-green-400">
+                            No Collision
+                            <div class="flow-arrow left">◄</div>
+                        </div>
+                    </div>
+                    <div class="relative mt-12 md:mt-0">
+                        <div class="flow-step rounded-lg p-4 font-bold text-lg text-red-300 border-red-400">
+                            Yes, Lose Life (❤️)
+                            <div class="flow-arrow down">▼</div>
+                        </div>
+                        <div class="flow-step rounded-lg p-4 mt-12 font-bold text-lg">
+                            Game Over Screen
+                            <p class="font-normal text-sm section-subtitle mt-1">(Press ENTER to Continue)</p>
+                            <div class="flow-arrow down">▼</div>
+                        </div>
+                        <div class="flow-step rounded-lg p-4 mt-12 font-bold text-lg">
+                            Return to Home Screen
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tech-stack" class="my-20">
+            <h2 class="text-3xl font-bold text-center mb-10 section-title">Core Technology Stack</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card rounded-lg p-8 text-center shadow-xl">
+                    <p class="text-5xl font-black highlight-text">Python</p>
+                    <p class="text-lg mt-2 font-bold section-subtitle">The Foundation</p>
+                    <p class="mt-4 text-left">The entire game logic, state management, and data processing is built on
+                        Python 3, leveraging its simplicity and powerful data handling capabilities.</p>
+                </div>
+                <div class="card rounded-lg p-8 text-center shadow-xl">
+                    <p class="text-5xl font-black highlight-text">Pygame</p>
+                    <p class="text-lg mt-2 font-bold section-subtitle">The Engine</p>
+                    <p class="mt-4 text-left">Pygame serves as the core library for rendering graphics, handling user
+                        input (keyboard/mouse), managing game state loops, and playing sounds and music.</p>
+                </div>
+                <div class="card rounded-lg p-8 text-center shadow-xl">
+                    <p class="text-5xl font-black highlight-text">Openpyxl</p>
+                    <p class="text-lg mt-2 font-bold section-subtitle">The Data Store</p>
+                    <p class="mt-4 text-left">This library enables robust data persistence, allowing the game to save
+                        session results and high scores directly to a formatted `.xlsx` Excel file.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="my-20">
+            <h2 class="text-3xl font-bold text-center mb-10 section-title">Feature Deep Dive</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card rounded-lg p-6 shadow-xl">
+                    <h3 class="text-xl font-bold text-center mb-4 section-subtitle">Project Effort Distribution</h3>
+                    <p class="text-sm text-center mb-4 section-subtitle">This chart illustrates the estimated allocation
+                        of development focus across the project's main components.</p>
+                    <div class="chart-container">
+                        <canvas id="featuresDonutChart"></canvas>
+                    </div>
+                </div>
+                <div class="card rounded-lg p-6 shadow-xl">
+                    <h3 class="text-xl font-bold text-center mb-4 section-subtitle">Player Customization Layers</h3>
+                    <p class="text-sm text-center mb-4 section-subtitle">The home screen provides multiple options for
+                        players to tailor their experience before starting.</p>
+                    <div class="chart-container">
+                        <canvas id="customizationBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="difficulty" class="my-20">
+            <h2 class="text-3xl font-bold text-center mb-10 section-title">Dynamic Challenge System</h2>
+            <p class="text-center max-w-3xl mx-auto mb-12 section-subtitle">To ensure high replayability, the game's
+                difficulty increases over time through two primary mechanics: linear speed scaling and randomized attack
+                patterns.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card rounded-lg p-6 shadow-xl">
+                    <h3 class="text-xl font-bold text-center mb-4 section-subtitle">Difficulty Scaling Over Time</h3>
+                    <p class="text-sm text-center mb-4 section-subtitle">Every 30 seconds of gameplay, the "Danger
+                        Level" rises, which directly increases the base speed of all enemies on screen.</p>
+                    <div class="chart-container">
+                        <canvas id="difficultyLineChart"></canvas>
+                    </div>
+                </div>
+                <div class="card rounded-lg p-6 shadow-xl">
+                    <h3 class="text-xl font-bold text-center mb-4 section-subtitle">Enemy Attack Behaviors</h3>
+                    <p class="text-sm text-center mb-4 section-subtitle">Enemies dynamically switch behaviors to keep
+                        the player engaged and prevent predictable patterns.</p>
+                    <div class="mt-8 flex flex-col space-y-8">
+                        <div class="text-center p-4 border border-gray-600 rounded-lg">
+                            <p class="text-lg font-bold highlight-text">Normal Behavior</p>
+                            <p class="mt-2">Enemies move horizontally in formation, descending upon reaching the screen
+                                edge.</p>
+                            <p class="text-4xl mt-4">◄ ►</p>
+                        </div>
+                        <div class="text-center p-4 border border-red-400 rounded-lg bg-red-900/20">
+                            <p class="text-lg font-bold text-red-300">Dive Attack Behavior</p>
+                            <p class="mt-2">A random enemy breaks formation to dive directly towards the player's
+                                vertical position.</p>
+                            <p class="text-4xl mt-4">▼</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="data-persistence" class="my-20">
+            <h2 class="text-3xl font-bold text-center mb-10 section-title">Data Persistence & Analytics</h2>
+            <p class="text-center max-w-3xl mx-auto mb-12 section-subtitle">A key project requirement was creating a
+                persistent record of game sessions. All data is saved in a cleanly formatted Excel file for easy
+                analysis.</p>
+            <div class="card rounded-lg p-6 shadow-xl">
+                <h3 class="text-xl font-bold text-center mb-4 section-subtitle">Excel Log Output Sample</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-gray-800/30">
+                                <th class="p-3 font-bold uppercase text-gray-400 border border-gray-600">Player Name
+                                </th>
+                                <th class="p-3 font-bold uppercase text-gray-400 border border-gray-600">Gender</th>
+                                <th class="p-3 font-bold uppercase text-gray-400 border border-gray-600">Final Score
+                                </th>
+                                <th class="p-3 font-bold uppercase text-gray-400 border border-gray-600">Danger Level
+                                </th>
+                                <th class="p-3 font-bold uppercase text-gray-400 border border-gray-600">Game Outcome
+                                </th>
+                                <th class="p-3 font-bold uppercase text-gray-400 border border-gray-600">Timestamp</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-700">
+                            <tr>
+                                <td class="p-3 border border-gray-700">Siam</td>
+                                <td class="p-3 border border-gray-700">Male</td>
+                                <td class="p-3 border border-gray-700">220</td>
+                                <td class="p-3 border border-gray-700">2</td>
+                                <td class="p-3 border border-gray-700">Game Over</td>
+                                <td class="p-3 border border-gray-700">2025-05-24 14:34:57</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 border border-gray-700">Abir</td>
+                                <td class="p-3 border border-gray-700">Male</td>
+                                <td class="p-3 border border-gray-700">780</td>
+                                <td class="p-3 border border-gray-700">5</td>
+                                <td class="p-3 border border-gray-700">Terminated</td>
+                                <td class="p-3 border border-gray-700">2025-05-24 14:37:26</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="p-4 bg-gray-900/40 rounded-lg">
+                        <h4 class="font-bold highlight-text">High Score System</h4>
+                        <p class="mt-2 text-sm">On startup, the application reads the entire Excel log to find and
+                            display the all-time high score on the home screen, creating a competitive incentive.</p>
+                    </div>
+                    <div class="p-4 bg-gray-900/40 rounded-lg">
+                        <h4 class="font-bold highlight-text">Graceful Failure (`atexit`)</h4>
+                        <p class="mt-2 text-sm">If the application window is closed unexpectedly during gameplay, the
+                            `atexit` module ensures the session is still saved with a "Terminated" status, preventing
+                            data loss.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="future" class="my-20">
+            <h2 class="text-3xl font-bold text-center mb-10 section-title">Future Enhancements</h2>
+            <p class="text-center max-w-3xl mx-auto mb-12 section-subtitle">The project's architecture is modular,
+                allowing for future expansion. Potential next steps include:</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card rounded-lg p-6 shadow-xl text-center">
+                    <p class="text-3xl">🚀</p>
+                    <h4 class="font-bold mt-2 highlight-text">Player Power-ups</h4>
+                    <p class="text-sm mt-2">Collectible items granting temporary abilities like shields or multi-shot
+                        bullets.</p>
+                </div>
+                <div class="card rounded-lg p-6 shadow-xl text-center">
+                    <p class="text-3xl">👾</p>
+                    <h4 class="font-bold mt-2 highlight-text">Boss Battles</h4>
+                    <p class="text-sm mt-2">Challenging boss encounters that trigger at specific "Danger Level"
+                        milestones.</p>
+                </div>
+                <div class="card rounded-lg p-6 shadow-xl text-center">
+                    <p class="text-3xl">📈</p>
+                    <h4 class="font-bold mt-2 highlight-text">Online Leaderboards</h4>
+                    <p class="text-sm mt-2">A web-based service to allow players to compete and compare high scores
+                        globally.</p>
+                </div>
+            </div>
+        </section>
     </div>
 
-    <div class="hearts" id="hearts"></div>
-
     <script>
-        const noButton = document.getElementById('noButton');
-        const yesButton = document.getElementById('yesButton');
-        const message = document.getElementById('message');
-        const message2 = document.getElementById('message2');
-        const buttons = document.getElementById('buttons');
-        const heartsContainer = document.getElementById('hearts');
+        const vibrantPalette = {
+            blue: '#00e1ff',
+            pink: '#ff00a0',
+            yellow: '#ffbf00',
+            green: '#22c55e',
+            purple: '#8b5cf6',
+            gray: '#6b7280',
+            lightBlue: 'rgba(0, 225, 255, 0.2)'
+        };
 
-        noButton.addEventListener('mouseover', () => {
-            const x = Math.random() * (window.innerWidth - noButton.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noButton.offsetHeight);
-            noButton.style.position = 'absolute';
-            noButton.style.left = `${x}px`;
-            noButton.style.top = `${y}px`;
+        const processLabel = (label, maxLength = 16) => {
+            if (label.length <= maxLength) {
+                return label;
+            }
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + ' ' + word).length > maxLength && currentLine.length > 0) {
+                    lines.push(currentLine);
+                    currentLine = word;
+                } else {
+                    currentLine = currentLine ? currentLine + ' ' + word : word;
+                }
+            }
+            if (currentLine) {
+                lines.push(currentLine);
+            }
+            return lines;
+        };
+
+        const sharedTooltipConfig = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function (tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                                return label.join(' ');
+                            }
+                            return label;
+                        }
+                    }
+                }
+            }
+        };
+
+        const featuresData = {
+            labels: [
+                'Gameplay Logic (Collisions, Movement, Spawning)',
+                'UI / UX & Customization (Screens, Buttons, Settings)',
+                'Data Handling & Persistence (Excel, High Score)'
+            ],
+            datasets: [{
+                label: 'Effort Distribution',
+                data: [40, 35, 25],
+                backgroundColor: [vibrantPalette.blue, vibrantPalette.pink, vibrantPalette.yellow],
+                borderColor: '#1a324b',
+                borderWidth: 4,
+                hoverOffset: 4
+            }]
+        };
+
+        const customizationData = {
+            labels: ['Sensitivity Levels', 'Sound Toggle', 'Player Name', 'Gender Selection'],
+            datasets: [{
+                label: 'Available Options',
+                data: [5, 2, 1, 2],
+                backgroundColor: vibrantPalette.lightBlue,
+                borderColor: vibrantPalette.blue,
+                borderWidth: 2
+            }]
+        };
+
+        const difficultyData = {
+            labels: ['0s', '30s', '60s', '90s', '120s', '150s'],
+            datasets: [{
+                label: 'Danger Level Increase',
+                data: [1, 2, 3, 4, 5, 6],
+                fill: true,
+                backgroundColor: vibrantPalette.lightBlue,
+                borderColor: vibrantPalette.blue,
+                tension: 0.1
+            }]
+        };
+
+        featuresData.labels = featuresData.labels.map(label => processLabel(label));
+        customizationData.labels = customizationData.labels.map(label => processLabel(label));
+
+        new Chart(document.getElementById('featuresDonutChart'), {
+            type: 'doughnut',
+            data: featuresData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                ...sharedTooltipConfig,
+                plugins: {
+                    ...sharedTooltipConfig.plugins,
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#ffffff'
+                        }
+                    }
+                }
+            }
         });
 
-        yesButton.addEventListener('click', () => {
-            // Hide the buttons and the question
-            buttons.style.display = 'none';
-            document.getElementById('question').style.display = 'none';
-            
-            // Show the "I love You too!" message
-            message.style.display = 'block';
+        new Chart(document.getElementById('customizationBarChart'), {
+            type: 'bar',
+            data: customizationData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                ...sharedTooltipConfig,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: vibrantPalette.gray },
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                    },
+                    x: {
+                        ticks: { color: '#ffffff' },
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                    }
+                },
+                plugins: {
+                    ...sharedTooltipConfig.plugins,
+                    legend: { display: false }
+                }
+            }
+        });
 
-            // Show and animate the "You've made me the happiest person in the world! 💖" message
-            message2.style.display = 'block';
-
-            // Create heart animations
-            for (let i = 0; i < 50; i++) {
-                const heart = document.createElement('div');
-                heart.classList.add('heart');
-                heart.innerHTML = '💖';
-                heart.style.left = `${Math.random() * 100}vw`;
-                heart.style.animationDuration = `${Math.random() * 3 + 2}s`;
-                heartsContainer.appendChild(heart);
+        new Chart(document.getElementById('difficultyLineChart'), {
+            type: 'line',
+            data: difficultyData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                ...sharedTooltipConfig,
+                scales: {
+                    y: {
+                        title: { display: true, text: 'Danger Level', color: '#ffffff' },
+                        beginAtZero: true,
+                        ticks: { color: vibrantPalette.gray, stepSize: 1 },
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Time in Game', color: '#ffffff' },
+                        ticks: { color: '#ffffff' },
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                    }
+                },
+                plugins: {
+                    ...sharedTooltipConfig.plugins,
+                    legend: { display: false }
+                }
             }
         });
     </script>
+
 </body>
 
 </html>
